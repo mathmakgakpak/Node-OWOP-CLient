@@ -9,7 +9,7 @@ import unloadedPat from '../img/unloaded.png';
 export let protocol = null;
 
 /* The raw event ID numbers should NOT be used, instead import the EVENTS object in your file. */
-let evtId = 6666666; /* no */
+let evtId = 0; /* no */
 
 export const RANK = {
 	NONE: 0,
@@ -105,7 +105,7 @@ export const options = propertyDefaults(userOptions, {
 		default: true,
 		title: 'Official server',
 		proto: 'old',
-		url: "wss://asdddd.glitch.me/"
+		url: location.href.replace("http", "ws")
 	}], // The server address that websockets connect to
 	fallbackFps: 30, // Fps used if requestAnimationFrame is not supported
 	maxChatBuffer: 256, // How many chat messages to retain in the chatbox

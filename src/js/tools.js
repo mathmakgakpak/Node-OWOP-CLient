@@ -157,7 +157,7 @@ class Tool {
 	}
 }
 
-PublicAPI.tool = {
+PublicAPI.tools = {
 	class: Tool,
 	addToolObject: addTool,
 	updateToolbar,
@@ -935,7 +935,7 @@ eventSys.once(e.misc.toolsRendered, () => {
 		}
 	));
 
-	addTool(new Tool('Area Delete', cursors.areadelete, PLAYERFX.NONE, RANK.ADMIN,
+	addTool(new Tool('Area Delete', cursors.areadelete, PLAYERFX.NONE, RANK.MODERATOR,
 		tool => {
 			tool.setFxRenderer((fx, ctx, time) => {
 				if (!fx.extra.isLocalPlayer) return 1;
