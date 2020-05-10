@@ -4,7 +4,7 @@ var shown = false;
 var contextMenu = document.createElement("div");
 contextMenu.className = "context-menu";
 
-function removeMenu(event) {
+export function removeMenu(event) {
 		document.body.removeChild(contextMenu);
 		document.removeEventListener("click", removeMenu);
 		shown = false;

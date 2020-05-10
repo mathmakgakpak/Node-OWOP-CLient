@@ -9,7 +9,7 @@ import { colorUtils as color } from './util/color.js';
 import { Lerp } from './util/Lerp.js';
 import { tools } from './tools.js';
 
-export { centerCameraTo, moveCameraBy, moveCameraTo, isVisible };
+//export { centerCameraTo, moveCameraBy, moveCameraTo, isVisible, cameraValues, renderValues, BufView, ChunkCluster, render };
 
 /* oh boy, i'm going to get shit for making this private, aren't i?  */
 const cameraValues = {
@@ -230,7 +230,7 @@ export function drawText(ctx, str, x, y, centered){
 	ctx.fillText(str, x, y);
 }
 
-function isVisible(x, y, w, h) {
+export function isVisible(x, y, w, h) {
 	var cx    = camera.x;
 	var cy    = camera.y;
 	var czoom = camera.zoom;
@@ -264,7 +264,7 @@ export function unloadFarClusters() { /* Slow? */
 }
 
 
-function render(type) {
+export function render(type) {
 	var time = getTime(true);
 	var camx = camera.x;
 	var camy = camera.y;
@@ -386,7 +386,7 @@ function render(type) {
 	requestRender(needsRender);
 }
 
-function renderPlayer(targetPlayer, fontsize) {
+export function renderPlayer(targetPlayer, fontsize) {
 	var camx = camera.x * 16;
 	var camy = camera.y * 16;
 	var zoom = camera.zoom;
@@ -431,16 +431,16 @@ function renderPlayer(targetPlayer, fontsize) {
 	return x === targetPlayer.endX && y === targetPlayer.endY;
 }
 
-function requestRender(type) {
+export function requestRender(type) {
 	rendererValues.updateRequired |= type;
 }
 
-function setGridVisibility(enabled) {
+export function setGridVisibility(enabled) {
 	rendererValues.gridShown = enabled;
 	requestRender(renderer.rendertype.FX);
 }
 
-function renderGrid(zoom) {
+export function renderGrid(zoom) {
 	var tmpcanvas = document.createElement("canvas");
 	var ctx = tmpcanvas.getContext("2d");
 	var size = tmpcanvas.width = tmpcanvas.height = Math.round(16 * zoom);
@@ -469,7 +469,7 @@ function renderGrid(zoom) {
 	return ctx.createPattern(tmpcanvas, "repeat");
 }
 
-function setGridZoom(zoom) {
+export function setGridZoom(zoom) {
 	if (zoom >= rendererValues.minGridZoom) {
 		rendererValues.gridPattern = renderGrid(zoom);
 	} else {
@@ -477,7 +477,7 @@ function setGridZoom(zoom) {
 	}
 }
 
-function updateVisible() {
+export function updateVisible() {
 	var clusters = rendererValues.clusters;
 	var visiblecl = rendererValues.visibleClusters;
 	for (var c in clusters) {
@@ -495,7 +495,7 @@ function updateVisible() {
 	}
 };
 
-function onResize() {
+export function onResize() {
 	elements.animCanvas.width = window.innerWidth;
 	elements.animCanvas.height = window.innerHeight;
 	var ctx = rendererValues.animContext;
@@ -508,7 +508,7 @@ function onResize() {
 	onCameraMove();
 }
 
-function alignCamera() {
+export function alignCamera() {
 	var zoom = cameraValues.zoom;
 	var alignedX = Math.round(cameraValues.x * zoom) / zoom;
 	var alignedY = Math.round(cameraValues.y * zoom) / zoom;
@@ -516,7 +516,7 @@ function alignCamera() {
 	cameraValues.y = alignedY;
 }
 
-function requestMissingChunks() { /* TODO: move this to World */
+export function requestMissingChunks() { /* TODO: move this to World */
 	var x = camera.x / protocol.chunkSize - 2 | 0;
 	var mx = camera.x / protocol.chunkSize + window.innerWidth / camera.zoom / protocol.chunkSize | 0;
 	var cy = camera.y / protocol.chunkSize - 2 | 0;
@@ -529,7 +529,7 @@ function requestMissingChunks() { /* TODO: move this to World */
 	}
 }
 
-function onCameraMove() {
+export function onCameraMove() {
 	eventSys.emit(e.camera.moved, camera);
 	alignCamera();
 	updateVisible();
@@ -539,25 +539,25 @@ function onCameraMove() {
 	requestRender(renderer.rendertype.FX);
 }
 
-function getCenterPixel() {
+export function getCenterPixel() {
 	var x = Math.round(cameraValues.x + window.innerWidth / camera.zoom / 2);
 	var y = Math.round(cameraValues.y + window.innerHeight / camera.zoom / 2);
 	return [x, y];
 }
 
-function centerCameraTo(x, y) {
+export function centerCameraTo(x, y) {
 	cameraValues.x = -(window.innerWidth / camera.zoom / 2) + x;
 	cameraValues.y = -(window.innerHeight / camera.zoom / 2) + y;
 	onCameraMove();
 }
 
-function moveCameraBy(x, y) {
+export function moveCameraBy(x, y) {
 	cameraValues.x += x;
 	cameraValues.y += y;
 	onCameraMove();
 }
 
-function moveCameraTo(x, y) {
+export function moveCameraTo(x, y) {
 	cameraValues.x = x;
 	cameraValues.y = y;
 	onCameraMove();

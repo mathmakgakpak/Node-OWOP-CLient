@@ -82,7 +82,7 @@ for (const id in OldProtocol.tools) {
 	}
 }
 
-function stoi(string, max) {
+export function stoi(string, max) {
 	var ints = [];
 	var fstring = "";
 	string = string.toLowerCase();
@@ -98,7 +98,7 @@ function stoi(string, max) {
 	return [ints, fstring];
 }
 
-class OldProtocolImpl extends Protocol {
+export class OldProtocolImpl extends Protocol {
 	constructor(ws, worldName) {
 		super(ws);
 		super.hookEvents(this);

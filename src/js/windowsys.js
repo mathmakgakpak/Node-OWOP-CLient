@@ -20,7 +20,7 @@ export const windowSys = {
 
 PublicAPI.windowSys = windowSys;
 
-function closeAllWindows() {
+export function closeAllWindows() {
 	for (var x in windowSys.windows) {
 		windowSys.windows[x].close();
 	}

@@ -9,13 +9,13 @@ export const net = {
 	connect: connect
 };
 
-//PublicAPI.net = net;
+PublicAPI.net = net;
 
-function isConnected() {
+export function isConnected() {
 	return net.protocol !== null && net.protocol.isConnected();
 }
 
-function connect(server, worldName) {
+export function connect(server, worldName) {
 	eventSys.emit(e.net.connecting, server);
 	net.connection = new WebSocket(server.url);
 	net.connection.binaryType = "arraybuffer";

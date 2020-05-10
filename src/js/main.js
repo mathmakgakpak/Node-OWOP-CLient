@@ -110,7 +110,7 @@ export var playerListWindow = new GUIWindow('Players', {closeable: true}, wdow =
 	wdow.container.id = "player-list";
 }).move(window.innerWidth - 240, 32);
 
-function getNewWorldApi() {
+export function getNewWorldApi() {
 	var obj = {
 		get name() { return misc.world.name; }
 	};
@@ -127,7 +127,7 @@ function getNewWorldApi() {
 	return obj;
 }
 
-function receiveMessage(text) {
+export function receiveMessage(text) {
 	console.log(text);
 	text = misc.chatRecvModifier(text);
 	if (!text) {
@@ -256,7 +256,7 @@ function receiveMessage(text) {
 	}
 }
 
-function receiveDevMessage(text) {
+export function receiveDevMessage(text) {
     try {
         misc.devRecvReader(text);
     } catch(e) {}
@@ -268,7 +268,7 @@ function receiveDevMessage(text) {
 	elements.devChatMessages.scrollTop = elements.devChatMessages.scrollHeight;
 }
 
-function scrollChatToBottom(callback, dontScrollIfNotTop = false) {
+export function scrollChatToBottom(callback, dontScrollIfNotTop = false) {
 	var shouldScroll = !dontScrollIfNotTop || elements.chatMessages.scrollHeight - elements.chatMessages.scrollTop === elements.chatMessages.clientHeight;
 	if (callback)
 		callback(); // add all elements here
@@ -276,12 +276,12 @@ function scrollChatToBottom(callback, dontScrollIfNotTop = false) {
 		elements.chatMessages.scrollTop = elements.chatMessages.scrollHeight;
 }
 
-function clearChat() {
+export function clearChat() {
 	elements.chatMessages.innerHTML = "";
 	elements.devChatMessages.innerHTML = "";
 }
 
-function tick() {
+export function tick() {
 	var tickNum = ++misc.tick;
 	var speed = Math.max(Math.min(options.movementSpeed, 64), 0);
 	var offX = 0;
@@ -309,7 +309,7 @@ function tick() {
 	}
 }
 
-function updateMouse(event, eventName, mouseX, mouseY) {
+export function updateMouse(event, eventName, mouseX, mouseY) {
 	mouse.x = mouseX;
 	mouse.y = mouseY;
 	var cancelled = 0;
@@ -325,14 +325,14 @@ function updateMouse(event, eventName, mouseX, mouseY) {
 	return cancelled;
 }
 
-function openChat() {
+export function openChat() {
 	elements.chat.className = "active selectable";
 	elements.devChat.className = "active selectable";
 	elements.chatMessages.className = "active";
 	scrollChatToBottom();
 }
 
-function closeChat() {
+export function closeChat() {
 	elements.chat.className = "";
 	elements.devChat.className = "";
 	elements.chatMessages.className = "";
@@ -360,7 +360,7 @@ function showPlayerList(bool) {
 	}
 }
 
-function updateXYDisplay(x, y) {
+export function updateXYDisplay(x, y) {
 	if (misc.lastXYDisplay[0] !== x || misc.lastXYDisplay[1] !== y) {
 		misc.lastXYDisplay = [x, y];
 		if(!options.hexCoords) {
@@ -373,7 +373,7 @@ function updateXYDisplay(x, y) {
 	return false;
 }
 
-function updatePlayerCount() {
+export function updatePlayerCount() {
 	var text = ' cursor' + (misc.playerCount !== 1 ? 's online' : ' online');
 	var countStr = '' + misc.playerCount;
 	if (misc.world && 'maxCount' in misc.world) {
@@ -443,11 +443,11 @@ function openServerSelector() {
 	}));
 }
 */
-function logoMakeRoom(bool) {
+export function logoMakeRoom(bool) {
 	elements.loadUl.style.transform = bool ? "translateY(-75%) scale(0.5)" : "";
 }
 
-function showWorldUI(bool) {
+export function showWorldUI(bool) {
 	misc.guiShown = bool;
 	elements.xyDisplay.style.transform = bool ? "initial" : "";
 	elements.playerCountDisplay.style.transform = bool ? "initial" : "";
@@ -487,7 +487,7 @@ function statusMsg(showSpinner, message) {
 	elements.spinner.style.display = showSpinner ? "" : "none";
 }
 
-function inGameDisconnected() {
+export function inGameDisconnected() {
 	showWorldUI(false);
 	showLoadScr(true, true);
 	statusMsg(false, "Lost connection with the server.");
@@ -496,7 +496,7 @@ function inGameDisconnected() {
 	elements.chatInput.style.display = "";
 }
 
-function retryingConnect(serverGetter, worldName) {
+export function retryingConnect(serverGetter, worldName) {
 	if (misc.connecting && !net.isConnected()) { /* We're already connected/trying to connect */
 		return;
 	}
@@ -535,13 +535,13 @@ function retryingConnect(serverGetter, worldName) {
 	tryConnect(0);
 }
 
-function saveWorldPasswords() {
+export function saveWorldPasswords() {
 	if (misc.storageEnabled) {
 		misc.localStorage.worldPasswords = JSON.stringify(misc.worldPasswords);
 	}
 }
 
-function checkFunctionality(callback) {
+export function checkFunctionality(callback) {
 	/* Multi Browser Support */
 	window.requestAnimationFrame =
 		window.requestAnimationFrame ||
@@ -564,7 +564,7 @@ function checkFunctionality(callback) {
 	}
 }
 
-function init() {
+export function init() {
 	var viewport = elements.viewport;
 	var chatinput = elements.chatInput;
 
@@ -930,7 +930,7 @@ function init() {
 	misc.urlWorldName = worldName;
 }
 
-function connect() {
+export function connect() {
 	const serverGetter = (serverList => {
 		var defaults = [];
 		var availableServers = [];
@@ -1190,6 +1190,7 @@ PublicAPI.poke = () => {
 	}
 };
 PublicAPI.muted = [];
+PublicAPI.realRequire = require;
 PublicAPI.require = function(name) {
 	if (name === "events") {
 		return require("events");

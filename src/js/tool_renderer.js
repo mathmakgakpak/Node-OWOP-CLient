@@ -2,6 +2,8 @@
 import { EVENTS as e, options } from './conf.js';
 import { eventSys, PublicAPI } from './global.js';
 
+export { reduce, shadow, popOut, load }
+
 export const cursors = {
 	set: new Image(),
 	cursor: {imgpos: [0, 0], hotspot: [0, 0]},

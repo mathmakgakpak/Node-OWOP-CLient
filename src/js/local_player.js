@@ -33,7 +33,7 @@ let paletteIndex = 0;
 
 export const undoHistory = [];
 
-const clientFx = new Fx(PLAYERFX.NONE, {
+export const clientFx = new Fx(PLAYERFX.NONE, {
 	isLocalPlayer: true,
 	player: {
 		get tileX() { return mouse.tileX; },
@@ -55,10 +55,10 @@ clientFx.setVisibleFunc(() => {
 
 // exported variables are always const it seems
 export const networkRankVerification = [RANK.NONE];
-let rank = RANK.NONE;
-let somethingChanged = false;
+export let rank = RANK.NONE;
+export let somethingChanged = false;
 
-let cachedHtmlRgb = [null, ""];
+export let cachedHtmlRgb = [null, ""];
 
 export const player = {
 	get paletteIndex() { return paletteIndex; },
@@ -99,13 +99,13 @@ export function shouldUpdate() { /* sets colorChanged to false when called */
 	return somethingChanged ? !(somethingChanged = false) : somethingChanged;
 }
 
-function changedColor() {
+export function changedColor() {
 	updateClientFx();
 	updatePaletteIndex();
 	somethingChanged = true;
 }
 
-function updatePalette() {
+export function updatePalette() {
 	var paletteColors = elements.paletteColors;
 	paletteColors.innerHTML = "";
 	var colorClick = (index) => () => {
@@ -148,11 +148,11 @@ function updatePalette() {
 	changedColor();
 }
 
-function updatePaletteIndex() {
+export function updatePaletteIndex() {
 	elements.paletteColors.style.transform = "translateY(" + (-paletteIndex * 40) + "px)";
 }
 
-function addPaletteColor(color) {
+export function addPaletteColor(color) {
 	for (var i = 0; i < palette.length; i++) {
 		if (palette[i][0] === color[0] && palette[i][1] === color[1] && palette[i][2] === color[2]) {
 			paletteIndex = i;
@@ -174,7 +174,7 @@ export function getDefaultTool() {
 	return null;
 }
 
-function selectTool(name) {
+export function selectTool(name) {
 	let tool = tools[name];
 	if(!tool || tool === toolSelected || tool.rankRequired > player.rank) {
 		return false;

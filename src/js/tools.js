@@ -12,7 +12,7 @@ import { PLAYERFX } from './Fx.js';
 
 export const tools = {};
 export let toolsWindow = null;
-let windowShown = false;
+export let windowShown = false;
 
 export function updateToolWindow(name) {
 	if (!toolsWindow) {
@@ -81,7 +81,7 @@ export function addTool(tool) {
 	updateToolbar();
 }
 
-class Tool {
+export class Tool {
 	constructor(name, cursor, fxRenderer, rankNeeded, onInit) {
 		this.name = name;
 		this.id = null;

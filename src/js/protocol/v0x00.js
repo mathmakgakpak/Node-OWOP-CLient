@@ -1,6 +1,6 @@
 'use strict';
 
-const protobuf = {
+export const protobuf = {
     global: {
         toClient: {
             0x00: [ /* Switch network state */

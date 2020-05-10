@@ -9,7 +9,7 @@ import { player } from './local_player.js';
 import { Player } from './Player.js';
 import { Fx } from './Fx.js';
 
-let lastPlace = 0;
+export let lastPlace = 0;
 
 export class Chunk {
 	constructor(x, y, netdata, locked) { /* netdata = Uint32Array */
